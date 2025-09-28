@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Comprehensive security and performance analysis report">
+    <title>Security Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(to bottom right, #d1d5db, #6b7280);
+            font-family: Arial, sans-serif;
+            color: #374151;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        header {
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            color: #374151;
+        }
+
+        main {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .report-section {
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            color: #374151;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        p {
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+            color: #374151;
+        }
+
+        .security {
+            margin-top: 0;
+        }
+
+        .risk-high {
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+        .risk-medium {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+
+        .risk-low {
+            color: #00cc00;
+            font-weight: bold;
+        }
+
+        .dashboard-button {
+            display: inline-block;
+            background-color: #6b7280;
+            color: white;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.9rem;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .dashboard-button:hover {
+            background-color: #4b5563;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.25rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.1rem;
+            }
+
+            h3 {
+                font-size: 0.9rem;
+            }
+
+            p, .dashboard-button {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Performance Dashboard</h1>
+    </header>
+
+    <main>
+        <h1>Comprehensive Analysis Report</h1>
+        
+        <div class="report-section performance">
+            <h2>Performance Metrics</h2>
+            <p><strong>Filename:</strong> {{ report.filename }}</p>
+            <p><strong>Execution Time:</strong> {{ report.exec_time }} seconds</p>
+            <p><strong>Peak Memory:</strong> {{ report.peak_memory }} MB</p>
+            <p><strong>Response Time:</strong> {{ report.response_time }} ms</p>
+            <p><strong>Throughput:</strong> {{ report.throughput }} RPS</p>
+        </div>
+        
+        <div class="report-section security">
+            <h2>Security Assessment</h2>
+            <p>
+                <strong>Security Score:</strong> {{ security.security_score }}/100
+                <span class="risk-{{ security.risk_level|lower }}">({{ security.risk_level }} Risk)</span>
+            </p>
+            <p><strong>Vulnerabilities Found:</strong> {{ security.vulnerability_count }}</p>
+            
+            {% if security.vulnerability_count > 0 %}
+            <h3>Security Issues:</h3>
+            {% for issue in security.security_issues %}
+            <p>{{ issue }}</p>
+            {% endfor %}
+            {% else %}
+            <p>No security issues detected.</p>
+            {% endif %}
+        </div>
+        
+        <a href="/dashboard" class="dashboard-button">Back to Dashboard</a>
+    </main>
+
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93bac3acfa71bd3a',t:'MTc0NjU1ODQ4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93bafb3849ae44e8',t:'MTc0NjU2MDc2MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>

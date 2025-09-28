@@ -1,0 +1,4 @@
+Flask==2.0.1
+openpyxl==3.0.7
+werkzeug==2.0.1
+sqlparse==0.4.4

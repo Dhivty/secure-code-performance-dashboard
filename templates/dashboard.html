@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User dashboard for performance and security analysis">
+    <title>Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(to bottom right, #d1d5db, #6b7280);
+            font-family: Arial, sans-serif;
+            color: #1f2937;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        header {
+            width: 100%;
+            padding: 1rem;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h1 {
+            font-size: 1.5rem;
+            color: #1f2937;
+        }
+
+        nav a {
+            color: #1f2937;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #4b5563;
+        }
+
+        main {
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 1rem;
+        }
+
+        .welcome-message {
+            font-size: 1.75rem;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .message {
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            text-align: center;
+            background: #f3f4f6;
+        }
+
+        .success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .error {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .upload-form {
+            background: #f3f4f6;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .upload-form h3 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .upload-form input[type="file"] {
+            margin-bottom: 1rem;
+        }
+
+        .upload-form button {
+            background-color: #6b7280;
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .upload-form button:hover {
+            background-color: #4b5563;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: #f3f4f6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: #e5e7eb;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e5e7eb;
+        }
+
+        .risk-high {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .risk-medium {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+
+        .risk-low {
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        a {
+            color: #1f2937;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #4b5563;
+        }
+
+        footer {
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            color: #1f2937;
+        }
+
+        @media (max-width: 768px) {
+            nav h1 {
+                font-size: 1.2rem;
+            }
+
+            .welcome-message {
+                font-size: 1.5rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>Performance Dashboard</h1>
+            <a href="/logout" aria-label="Log out">Logout</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="welcome-message" role="status">Welcome, {{ username }}!</div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <section class="upload-form" aria-labelledby="upload-heading">
+            <h3 id="upload-heading">Upload a Python or SQL file for performance tracking</h3>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" required aria-required="true">
+                <button type="submit">Upload</button>
+            </form>
+        </section>
+
+        <section aria-labelledby="performance-heading">
+            <h3 id="performance-heading">Your Performance History</h3>
+            {% if history %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Filename</th>
+                            <th>Execution Time (s)</th>
+                            <th>Peak Memory (MB)</th>
+                            <th>Response Time (ms)</th>
+                            <th>Throughput (RPS)</th>
+                            <th>Timestamp</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in history %}
+                            <tr>
+                                <td>{{ item.filename }}</td>
+                                <td>{{ "%.4f"|format(item.exec_time) }}</td>
+                                <td>{{ "%.2f"|format(item.peak_memory) }}</td>
+                                <td>{{ item.response_time }}</td>
+                                <td>{{ item.throughput if item.throughput != 'N/A' else 'N/A' }}</td>
+                                <td>{{ item.timestamp }}</td>
+                                <td><a href="{{ url_for('rerun', filename=item.filename) }}" aria-label="Rerun analysis for {{ item.filename }}">Rerun</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No files uploaded yet.</p>
+            {% endif %}
+        </section>
+
+        <section aria-labelledby="security-heading">
+            <h3 id="security-heading">Recent Security Status</h3>
+            {% if history %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Filename</th>
+                            <th>Performance</th>
+                            <th>Security Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in history %}
+                            <tr>
+                                <td>{{ item.filename }}</td>
+                                <td>
+                                    Time: {{ "%.4f"|format(item.exec_time) }}s<br>
+                                    Memory: {{ "%.2f"|format(item.peak_memory) }}MB
+                                </td>
+                                <td>
+                                    {% if item.security_score is not none %}
+                                        Score: {{ item.security_score }}/100<br>
+                                        Risk: <span class="risk-{{ item.risk_level|lower }}">{{ item.risk_level }}</span>
+                                    {% else %}
+                                        Not analyzed
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('rerun', filename=item.filename) }}" aria-label="Rerun analysis for {{ item.filename }}">Rerun</a><br>
+                                    <a href="/report/{{ item.filename }}" aria-label="View detailed report for {{ item.filename }}">Details</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No files analyzed yet.</p>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Performance Dashboard. All rights reserved.</p>
+    </footer>
+
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93bac3ad0d5332ef',t:'MTc0NjU1ODQ4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>

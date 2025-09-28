@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Logout page for performance dashboard">
+    <title>Logged Out</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(to bottom right, #d1d5db, #6b7280);
+            font-family: Arial, sans-serif;
+            color: #1f2937;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        header {
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            color: #1f2937;
+        }
+
+        main {
+            max-width: 400px;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logout-message {
+            background: #f3f4f6;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: #1f2937;
+        }
+
+        .logout-message p {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            color: #1f2937;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.25rem;
+            }
+
+            .logout-message {
+                font-size: 1rem;
+            }
+
+            .logout-message p {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+    <script>
+        setTimeout(function() {
+            window.location.href = "/login";
+        }, 2000);
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Performance Dashboard</h1>
+    </header>
+
+    <main>
+        <div class="logout-message">
+            Goodbye, {{ username }}! You have been successfully logged out.
+            <p>Redirecting to login page...</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Performance Dashboard. All rights reserved.</p>
+    </footer>
+
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93bac3ad08551d74',t:'MTc0NjU1ODQ4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>
